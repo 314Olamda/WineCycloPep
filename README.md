@@ -36,7 +36,6 @@ sample.d  (Bruker timsTOF PASEF)      ─┘
 Wine lees — the yeast-rich sediment produced during and after fermentation — release a diverse array of low-molecular-weight peptides through autolysis during *sur lies* aging. Among these, **cyclic peptides** (head-to-tail amide bond, no free N/C terminus) are of particular biotechnological interest because:
 
 - **Enhanced stability** — resistant to exopeptidases; survive enological processing and acidic wine pH
-- **Antifungal activity** — cyclic dipeptides (diketopiperazines, DKPs) from *Saccharomyces cerevisiae* autolysis are known antifungal agents against *Phaeoacremonium minimum* and *Phaeomoniella chlamydospora* (Petri disease pathogens)
 - **Metal chelation** — donor atoms in cyclic scaffolds (His, Cys, Asp, Glu, Tyr) can coordinate Fe²⁺/Cu²⁺/Zn²⁺, relevant to the antioxidant and Fenton-inhibitory activity of wine lees fractions
 - **SO₂ alternative potential** — metal chelation + radical scavenging from a single stable cyclic scaffold supports the PROPEPT research hypothesis
 - **CRISPR engineering target** — defined cyclic scaffolds with predicted bioactivity are prime candidates for CRISPR-directed overproduction in engineered yeast
