@@ -103,7 +103,12 @@ graph TD
 ---
 
 ## ⚡ Quick start
+**Interactive demo:** [`examples/WineCycloPep_example.ipynb`](examples/WineCycloPep_example.ipynb)
+[
 
+![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)
+
+](https://colab.research.google.com/github/314Olamda/WineCycloPep/blob/main/examples/WineCycloPep_example.ipynb)
 ```bash
 # 1. Clone
 git clone https://github.com/314Olamda/WineCycloPep.git
