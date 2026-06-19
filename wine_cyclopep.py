@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 🔄 Wine CycloPep — De novo cyclic peptide detection from Bruker timsTOF PASEF
 ═══════════════════════════════════════════════════════════════════════════════
@@ -714,7 +715,7 @@ CHELATION_WEIGHTS: dict[str, dict[str, float]] = {
 }
 
 DONOR_LABEL: dict[str, str] = {
-    "H": "His-Nε2", "C": "Cys-S", "D": "Asp-COO⁻", "E": "Glu-COO⁻",
+    "H": "His-Ne2", "C": "Cys-S", "D": "Asp-COO", "E": "Glu-COO",
     "Y": "Tyr-OH",  "N": "Asn-CO", "Q": "Gln-CO",
     "S": "Ser-OH",  "T": "Thr-OH",
 }
@@ -1255,7 +1256,7 @@ def run(args: argparse.Namespace) -> None:
     frame_rt    = dict(zip(frames_df.index, frames_df["Time"].values))
     mono_mzs    = precursors["MonoisotopicMz"].values.astype(float)
     avg_mzs     = precursors["AverageMz"].values.astype(float)
-    charges     = precursors["Charge"].values.astype(int)
+    charges     = precursors["Charge"].fillna(0).values.astype(int)
     parent_ids  = precursors["Parent"].values.astype(int)
     scan_nums   = precursors["ScanNumber"].values.astype(int)
     rt_seconds  = np.array([frame_rt.get(pid, 0.0) for pid in parent_ids])
@@ -1404,7 +1405,7 @@ def run(args: argparse.Namespace) -> None:
     # ── Write candidate TSV (strip internal _mz/_int arrays) ─────────────────
     tsv_path = out_dir / "cyclic_candidates.tsv"
     fields = [k for k in all_candidates[0].keys() if not k.startswith("_")]
-    with open(tsv_path, "w", newline="") as f:
+    with open(tsv_path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fields, delimiter="\t",
                            extrasaction="ignore")
         w.writeheader()
@@ -1413,7 +1414,7 @@ def run(args: argparse.Namespace) -> None:
 
     # ── Write global statistics report ───────────────────────────────────────
     stat_path = out_dir / "statistical_report.tsv"
-    with open(stat_path, "w", newline="") as f:
+    with open(stat_path, "w", newline="", encoding="utf-8") as f:
         w2 = csv.writer(f, delimiter="\t")
         w2.writerow(["metric", "value"])
         for k, v in global_stats.items():
@@ -1449,7 +1450,7 @@ def run(args: argparse.Namespace) -> None:
             "loss_coverage":    c["loss_coverage"],
         })
 
-    with open(uniq_path, "w", newline="") as f:
+    with open(uniq_path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(uniq_rows[0].keys()), delimiter="\t")
         w.writeheader()
         w.writerows(uniq_rows)
@@ -1465,7 +1466,7 @@ def run(args: argparse.Namespace) -> None:
 
     chel_path = out_dir / "chelation_report.tsv"
     if chelation_rows:
-        with open(chel_path, "w", newline="") as f:
+        with open(chel_path, "w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=list(chelation_rows[0].keys()), delimiter="\t")
             w.writeheader()
             w.writerows(chelation_rows)
@@ -1520,7 +1521,7 @@ def run(args: argparse.Namespace) -> None:
             })
 
     if ion_rows:
-        with open(ion_path, "w", newline="") as f:
+        with open(ion_path, "w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=list(ion_rows[0].keys()), delimiter="\t")
             w.writeheader()
             w.writerows(ion_rows)
@@ -1528,7 +1529,7 @@ def run(args: argparse.Namespace) -> None:
 
     # ── FASTA of candidates ───────────────────────────────────────────────────
     fasta_path = out_dir / "cyclic_candidates.fasta"
-    with open(fasta_path, "w") as f:
+    with open(fasta_path, "w", encoding="utf-8") as f:
         for row in uniq_rows:
             seq = row["best_sequence"]
             f.write(
@@ -1617,7 +1618,7 @@ def run(args: argparse.Namespace) -> None:
         # Write conformer summary TSV
         conf_tsv = out_dir / "conformer_log.tsv"
         if conformer_log:
-            with open(conf_tsv, "w", newline="") as f:
+            with open(conf_tsv, "w", newline="", encoding="utf-8") as f:
                 w = csv.DictWriter(f, fieldnames=list(conformer_log[0].keys()), delimiter="\t")
                 w.writeheader()
                 w.writerows(conformer_log)
@@ -1625,7 +1626,7 @@ def run(args: argparse.Namespace) -> None:
         # Write per-conformer detail TSV
         conf_detail_tsv = out_dir / "conformer_detail.tsv"
         if conformer_rows:
-            with open(conf_detail_tsv, "w", newline="") as f:
+            with open(conf_detail_tsv, "w", newline="", encoding="utf-8") as f:
                 w = csv.DictWriter(f, fieldnames=list(conformer_rows[0].keys()), delimiter="\t")
                 w.writeheader()
                 w.writerows(conformer_rows)
@@ -1640,7 +1641,7 @@ def run(args: argparse.Namespace) -> None:
 
     # ── Pipeline summary ──────────────────────────────────────────────────────
     summary_path = out_dir / "pipeline_summary.txt"
-    with open(summary_path, "w") as f:
+    with open(summary_path, "w", encoding="utf-8") as f:
         f.write("Wine CycloPep — Pipeline Summary\n")
         f.write("=" * 55 + "\n\n")
         f.write(f"Input .d folder        : {d_path.name}\n")
